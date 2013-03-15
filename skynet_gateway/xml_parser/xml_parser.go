@@ -1,36 +1,13 @@
-package main
+package xmlparser
 
 import (
 	"fmt"
 	"github.com/moovweb/gokogiri"
 	"github.com/moovweb/gokogiri/xml"
-	"io/ioutil"
 	"reflect"
 	"strconv"
 	"strings"
-	"time"
 )
-
-func main() {
-	//input, err := ioutil.ReadFile("../../../claritybase/xml_response.xml")
-	input, err := ioutil.ReadFile("../../../claritybase/test/load/inquiry.xml")
-
-	if err == nil {
-		m := ParseXml(input)
-		pp_map(m, 0)
-	} else {
-		fmt.Println("Couldn't read file", err.Error())
-	}
-
-	// Benchmark 100 parses
-   count := 100
-	start_time := time.Now()
-   for i := 0; i< count; i++ {
-	  ParseXml(input)
-   }
-	duration := time.Since(start_time)
-	fmt.Println("Average XML Parsing time:", duration.Nanoseconds() / 1000 / int64(count), "micro seconds")
-}
 
 func ParseXml(xml []byte) map[string]interface{} {
 	var result map[string]interface{}
