@@ -1,0 +1,17 @@
+<inquiry>
+    <title/>
+    <first-name>Joe</first-name>
+	 <last-name>Bloggs</last-name>
+    <middle-initial/>
+	 <street-address>123 Somewhere St</street-address>
+	 <city>Clearwater</city>
+	 <state>FL</state>
+	 <zip-code>12345</zip-code>
+	 <amount>200.40</amount>
+	 <date-of-birth>1971-05-04</date-of-birth>
+    <cell-phone>8135551234</cell-phone>
+    <email-address>joe.bloggs@somewhere.net</email-address>
+	 <count>34</count>
+	 <timestamp>2013-03-08T23:26:10+00:00</timestamp>
+	 <time-stamp-nil></time-stamp-nil>
+</inquiry>
