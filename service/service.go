@@ -1,10 +1,10 @@
 package service
 
 import (
+	"encoding/gob"
 	"encoding/json"
 	"fmt"
 	"github.com/skynetservices/skynet"
-	"github.com/skynetservices/skynet/rpc/bsonrpc"
 	"net"
 	"net/rpc"
 	"os"
@@ -149,7 +149,7 @@ loop:
 				Registered: s.Registered,
 				ClientID:   clientID,
 			}
-			encoder := bsonrpc.NewEncoder(conn)
+			encoder := gob.NewEncoder(conn)
 			err := encoder.Encode(sh)
 			if err != nil {
 				s.Log.Error(err.Error())
@@ -165,7 +165,7 @@ loop:
 
 			// read the client handshake
 			var ch skynet.ClientHandshake
-			decoder := bsonrpc.NewDecoder(conn)
+			decoder := gob.NewDecoder(conn)
 			err = decoder.Decode(&ch)
 			if err != nil {
 				s.Log.Error("Error calling bsonrpc.NewDecoder: " + err.Error())
@@ -176,7 +176,7 @@ loop:
 			// here do stuff with the client handshake
 
 			go func() {
-				s.RPCServ.ServeCodec(bsonrpc.NewServerCodec(conn))
+				s.RPCServ.ServeConn(conn)
 
 				atomic.AddInt32(&s.Stats.Clients, -1)
 			}()
@@ -336,7 +336,7 @@ func (s *Service) cleanupDoozerEntriesForAddr(addr *skynet.BindAddr) {
 
 func (s *Service) UpdateDoozerServiceInfo() {
 
-	// We're going to create a copy of our ServiceInfo so that we can nil out the Stats, which will match the omitempty and won't marshal 
+	// We're going to create a copy of our ServiceInfo so that we can nil out the Stats, which will match the omitempty and won't marshal
 	// this is cheap as it's a single bool, and 2 pointers.
 	si := s.ServiceInfo
 	si.Stats = nil

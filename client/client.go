@@ -1,11 +1,11 @@
 package client
 
 import (
+	"encoding/gob"
 	"errors"
 	"fmt"
 	"github.com/skynetservices/skynet"
 	"github.com/skynetservices/skynet/pools"
-	"github.com/skynetservices/skynet/rpc/bsonrpc"
 	"net"
 	"net/rpc"
 	"os"
@@ -149,7 +149,7 @@ func getConnectionFactory(s *skynet.ServiceInfo) (factory pools.Factory) {
 
 		// get the service handshake
 		var sh skynet.ServiceHandshake
-		decoder := bsonrpc.NewDecoder(conn)
+		decoder := gob.NewDecoder(conn)
 
 		err = decoder.Decode(&sh)
 		if err != nil {
@@ -158,7 +158,7 @@ func getConnectionFactory(s *skynet.ServiceInfo) (factory pools.Factory) {
 		}
 
 		ch := skynet.ClientHandshake{}
-		encoder := bsonrpc.NewEncoder(conn)
+		encoder := gob.NewEncoder(conn)
 
 		err = encoder.Encode(ch)
 		if err != nil {
@@ -173,7 +173,7 @@ func getConnectionFactory(s *skynet.ServiceInfo) (factory pools.Factory) {
 		}
 
 		resource := ServiceResource{
-			rpcClient: bsonrpc.NewClient(conn),
+			rpcClient: rpc.NewClient(conn),
 			service:   s,
 			clientID:  sh.ClientID,
 		}

@@ -2,8 +2,8 @@ package client
 
 import (
 	"github.com/skynetservices/skynet"
-	"github.com/skynetservices/skynet/rpc/bsonrpc"
 	"net"
+	"net/rpc"
 )
 
 type Admin struct {
@@ -15,7 +15,7 @@ func (a *Admin) Register(in skynet.RegisterRequest) (out skynet.RegisterResponse
 	if err != nil {
 		return
 	}
-	rpcClient := bsonrpc.NewClient(conn)
+	rpcClient := rpc.NewClient(conn)
 	err = rpcClient.Call("Admin.Register", in, &out)
 	rpcClient.Close()
 	return
@@ -26,7 +26,7 @@ func (a *Admin) Unregister(in skynet.UnregisterRequest) (out skynet.UnregisterRe
 	if err != nil {
 		return
 	}
-	rpcClient := bsonrpc.NewClient(conn)
+	rpcClient := rpc.NewClient(conn)
 	err = rpcClient.Call("Admin.Unregister", in, &out)
 	rpcClient.Close()
 	return
@@ -37,7 +37,7 @@ func (a *Admin) Stop(in skynet.StopRequest) (out skynet.StopResponse, err error)
 	if err != nil {
 		return
 	}
-	rpcClient := bsonrpc.NewClient(conn)
+	rpcClient := rpc.NewClient(conn)
 	err = rpcClient.Call("Admin.Stop", in, &out)
 	rpcClient.Close()
 	return

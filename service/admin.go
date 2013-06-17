@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"github.com/skynetservices/skynet"
-	"github.com/skynetservices/skynet/rpc/bsonrpc"
 	"net/rpc"
 	"sync"
 )
@@ -41,7 +40,7 @@ func (sa *ServiceAdmin) Listen(addr *skynet.BindAddr, bindWait *sync.WaitGroup) 
 		if err != nil {
 			panic(err)
 		}
-		go sa.rpc.ServeCodec(bsonrpc.NewServerCodec(conn))
+		go sa.rpc.ServeConn(conn)
 	}
 }
 
